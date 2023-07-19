@@ -17,7 +17,9 @@ export const LayoutContainer = styled.div`
     width: 100%;
 
     @media (min-width: 1024px) {
+
       max-width: calc(100% - 40rem);
+
     }
     max-width: calc(100% - 6rem);
   }

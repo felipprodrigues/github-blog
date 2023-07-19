@@ -1,3 +1,4 @@
+
 import { Profile } from "../../components/Profile";
 import { SearchForm } from "../../components/Form";
 import { Cards } from "../../components/Cards";
@@ -13,5 +14,6 @@ export function Blog() {
 
       <Cards />
     </MainContainer>
+
   );
 }

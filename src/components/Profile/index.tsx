@@ -5,6 +5,7 @@ import {
   Users,
 } from "phosphor-react";
 import { Container, Content, ContentTags, ContentTitle } from "./styles";
+
 import { useEffect, useState } from "react";
 
 import { api } from "../../lib/axios";
@@ -44,15 +45,19 @@ export function Profile() {
       } else {
         console.log("Unknown error occurred:", error);
       }
+
     }
   }
 
   useEffect(() => {
+
     void fetchUser();
+
   }, []);
 
   return (
     <Container>
+
       <img src={githubApi.avatar_url} alt="" />
 
       <Content>
@@ -61,6 +66,7 @@ export function Profile() {
 
           <div>
             <a href={githubApi.url} target="_blank" rel="noopener noreferrer">
+
               GITHUB
               <ArrowSquareUpRight size={18} />
             </a>
@@ -68,14 +74,17 @@ export function Profile() {
         </ContentTitle>
 
         <p>
+
           {githubApi.bio
             ? githubApi.bio
             : "Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass."}
+
         </p>
 
         <ContentTags>
           <div>
             <GithubLogo size={20} />
+
             <span>{githubApi.login}</span>
           </div>
           <div>
@@ -85,6 +94,7 @@ export function Profile() {
           <div>
             <Users size={20} />
             <span>{githubApi.followers} seguidores</span>
+
           </div>
         </ContentTags>
       </Content>
