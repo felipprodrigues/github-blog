@@ -34,7 +34,7 @@ export function Profile() {
 
   async function fetchUser(): Promise<void> {
     try {
-      const response = await api.get<GithubApiProps>("/users/felipprodrigues");
+      const response = await api.get<GithubApiProps>("/users/wesbos");
 
       setGithubApi(response.data);
       console.log(response.data);

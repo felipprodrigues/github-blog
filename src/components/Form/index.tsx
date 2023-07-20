@@ -2,26 +2,17 @@ import { FormContainer } from "./styles";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useEffect } from "react";
+import { api } from "../../lib/axios";
+import { type } from "os";
+import { SearchFormInput } from "../../pages/Blog";
 
-const searchFormSchema = z.object({
-  query: z.string(),
-});
-
-type SearchFormInput = z.infer<typeof searchFormSchema>;
-
-export function SearchForm() {
-  const {
-    register,
-    handleSubmit,
-    // formState: {isSubmitting}
-  } = useForm<SearchFormInput>({
-    resolver: zodResolver(searchFormSchema),
-  });
-
-  async function handleSearch(data: SearchFormInput) {
-    await console.log(data, "aqui o data");
-  }
-
+export function SearchForm({
+  register,
+  handleSubmit,
+  handleSearch,
+}: SearchFormInput) {
   return (
     <FormContainer>
       <div>
