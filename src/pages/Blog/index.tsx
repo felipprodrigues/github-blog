@@ -1,14 +1,17 @@
-import { Cards } from "phosphor-react";
 import { Profile } from "../../components/Profile";
+import { SearchForm } from "../../components/Form";
+import { Cards } from "../../components/Cards";
+
+import { MainContainer } from "./styles";
 
 export function Blog() {
   return (
-    <div>
+    <MainContainer>
       <Profile />
 
-      <form action=""></form>
+      <SearchForm />
 
       <Cards />
-    </div>
+    </MainContainer>
   );
 }
