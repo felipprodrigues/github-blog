@@ -15,8 +15,27 @@ const searchFormSchema = z.object({
 
 export type SearchFormInput = z.infer<typeof searchFormSchema>;
 
+export interface DataProps {
+  total_count: number;
+  incomplete_results: boolean;
+  items: any[];
+}
+
+export interface Post {
+  number: number;
+  title: string;
+  body: string;
+  created_at: string;
+}
+
 export function Blog() {
-  const [cardsData, setCardsData] = useState([]);
+  const [cardsData, setCardsData] = useState<DataProps>([]);
+  const [posts, setPosts] = useState<Post>({
+    number: "",
+    title: "",
+    body: [],
+    created_at: "",
+  });
 
   const {
     register,
@@ -26,21 +45,22 @@ export function Blog() {
     resolver: zodResolver(searchFormSchema),
   });
 
-  async function handleSearch(data: SearchFormInput) {
-    if (!data) return;
+  async function handleSearch(query = "") {
+    if (!query) return;
 
-    const fetchCardInfo = await api.get(
-      `/search/issues?q=Boas%20pr%C3%A1ticas%20repo:rocketseat-education/reactjs-github-blog-challenge`
-    );
+    try {
+      const encodedQuery = encodeURIComponent(query);
+      const fetchCardInfo = await api.get(
+        `/search/issues?q=${encodedQuery}%20repo:wesbos/awesome-uses`
+      );
 
-    console.log(fetchCardInfo);
-    setCardsData(fetchCardInfo);
-    return fetchCardInfo;
+      console.log(fetchCardInfo, "auqi");
+      setCardsData(fetchCardInfo.data);
+      return fetchCardInfo;
+    } catch (error) {
+      console.error("Error occurred during API request:", error);
+    }
   }
-
-  useEffect(() => {
-    handleSearch();
-  }, []);
 
   return (
     <MainContainer>

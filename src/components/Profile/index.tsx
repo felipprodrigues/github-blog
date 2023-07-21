@@ -67,11 +67,7 @@ export function Profile() {
           </div>
         </ContentTitle>
 
-        <p>
-          {githubApi.bio
-            ? githubApi.bio
-            : "Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass."}
-        </p>
+        <p>{githubApi.bio ? githubApi.bio : "No bio description available"}</p>
 
         <ContentTags>
           <div>

@@ -6,13 +6,21 @@ export const CardContainer = styled.main`
   gap: 1rem;
 `;
 
-export const Card = styled.div`
+export const Card = styled.a`
   border-radius: 6px;
+  border: 1px solid transparent;
   background-color: ${(props) => props.theme["base-post"]};
   padding: 1.5rem;
   gap: 1rem;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  transition: all 0.15s linear;
+
+  &:hover {
+    opacity: 0.9;
+    border-color: ${(props) => props.theme["base-span"]};
+  }
 
   & > div:first-of-type {
     display: flex;
