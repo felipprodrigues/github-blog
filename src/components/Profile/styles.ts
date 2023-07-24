@@ -23,6 +23,7 @@ export const Content = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
 
   & > p {
     color: ${(props) => props.theme["base-text"]};

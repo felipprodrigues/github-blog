@@ -28,4 +28,11 @@ export const GlobalStyle = createGlobalStyle`
   button {
     font: 400 1rem Nunito, sans-serif;
   }
+
+  input {
+    background-color: ${(props) => props.theme["base-input"]};
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: ${(props) => props.theme["base-label"]}
+  }
 `;

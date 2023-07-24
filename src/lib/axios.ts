@@ -1,5 +1,8 @@
 import axios from "axios";
 
-const token = {process.env.TOKEN_GITHUB}
+const token = import.meta.env.VITE_GITHUB_API_TOKEN;
 
-export const api = axios.create(`https://api.github.com/users`);
+export const api = axios.create({
+  baseURL: "https://api.github.com",
+  headers: token ? { authorization: `Bearer ${token}` } : undefined,
+});

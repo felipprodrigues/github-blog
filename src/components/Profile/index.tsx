@@ -5,71 +5,84 @@ import {
   Users,
 } from "phosphor-react";
 import { Container, Content, ContentTags, ContentTitle } from "./styles";
-import { useEffect } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+
 import { api } from "../../lib/axios";
+import { error } from "console";
+// import { api } from "../../lib/axios";
+
+interface GithubApiProps {
+  name: string;
+  followers: number;
+  url: string;
+  login: string;
+  company?: string;
+  bio?: string;
+  avatar_url: string;
+}
 
 export function Profile() {
-  async function fetchApi() {
-    // const token = "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";
-    // console.log(token);
+  const [githubApi, setGithubApi] = useState<GithubApiProps>({
+    name: "",
+    followers: 0,
+    url: "",
+    login: "",
+    company: "",
+    bio: "",
+    avatar_url: "",
+  });
 
-    const config = {
-      // headers: {
-      //   Authorization: `Bearer ${token}`,
-      //   // "Content-Type": "application/json",
-      // },
-    };
-
+  async function fetchUser(): Promise<void> {
     try {
-      const response = await axios.get(
-        "https://api.github.com/users/felipprodrigues",
-        config
+      const response = await api.get<GithubApiProps>(
+        `/users/rocketseat-education`
       );
-      console.log(response);
+
+      setGithubApi(response.data);
+      console.log(response.data);
     } catch (error) {
-      console.log(error, "aqui o erro");
+      if (error instanceof Error) {
+        console.log("Error occurred:", error.message);
+      } else {
+        console.log("Unknown error occurred:", error);
+      }
     }
   }
 
   useEffect(() => {
-    fetchApi();
+    void fetchUser();
   }, []);
 
   return (
     <Container>
-      <img src="" alt="" />
+      <img src={githubApi.avatar_url} alt="" />
 
       <Content>
         <ContentTitle>
-          <h2>Cameron Williamson</h2>
+          <h2>{githubApi.name}</h2>
 
           <div>
-            <a href="http://" target="_blank" rel="noopener noreferrer">
+            <a href={githubApi.url} target="_blank" rel="noopener noreferrer">
               GITHUB
               <ArrowSquareUpRight size={18} />
             </a>
           </div>
         </ContentTitle>
 
-        <p>
-          Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-          viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat
-          pulvinar vel mass.
-        </p>
+        <p>{githubApi.bio ? githubApi.bio : "No bio description available"}</p>
 
         <ContentTags>
           <div>
             <GithubLogo size={20} />
-            <span>cameronwll</span>
+            <span>{githubApi.login}</span>
           </div>
           <div>
             <Buildings size={20} />
-            <span>Rocketseat</span>
+            <span>{githubApi.company ? githubApi.company : "None"}</span>
           </div>
           <div>
             <Users size={20} />
-            <span>32 seguidores</span>
+            <span>{githubApi.followers} seguidores</span>
           </div>
         </ContentTags>
       </Content>
