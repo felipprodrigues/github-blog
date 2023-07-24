@@ -1,17 +1,18 @@
 import { FormContainer } from "./styles";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { useEffect } from "react";
-import { api } from "../../lib/axios";
-import { type } from "os";
-import { SearchFormInput } from "../../pages/Blog";
+
+import { SubmitHandler } from "react-hook-form";
+
+interface SearchFormInput {
+  register: any; // Replace 'any' with the specific type for the 'register' function from react-hook-form
+  handleSubmit: SubmitHandler<FormValues>; // Replace 'FormValues' with the type of your form values
+  fetchCardData: (query: string) => Promise<void>; // Replace 'string' with the type of 'query' parameter used in 'fetchCardData'
+  // handleSearch: (query: string) => Promise<void>; // Replace 'string' with the type of 'query' parameter used in 'fetchCardData'
+}
 
 export function SearchForm({
   register,
   handleSubmit,
-  handleSearch,
+  fetchCardData,
 }: SearchFormInput) {
   return (
     <FormContainer>
@@ -20,7 +21,7 @@ export function SearchForm({
         <span>6 publicações</span>
       </div>
 
-      <form onSubmit={handleSubmit(handleSearch)}>
+      <form onSubmit={handleSubmit(fetchCardData)}>
         <input
           type="text"
           placeholder="Buscar conteúdo"

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../lib/axios";
+import axios from "axios";
 
 const searchFormSchema = z.object({
   query: z.string(),
@@ -29,13 +30,14 @@ export interface Post {
 }
 
 export function Blog() {
-  const [cardsData, setCardsData] = useState<DataProps>([]);
-  const [posts, setPosts] = useState<Post>({
+  const [cardsData, setCardsData] = useState<DataProps | null>(null);
+  const [post, setPost] = useState<Post>({
     number: "",
     title: "",
     body: [],
     created_at: "",
   });
+  const [newCard, setNewCard] = useState<any[]>([]);
 
   const {
     register,
@@ -45,22 +47,51 @@ export function Blog() {
     resolver: zodResolver(searchFormSchema),
   });
 
-  async function handleSearch(query = "") {
-    if (!query) return;
-
+  async function fetchCardData(texto = "") {
     try {
-      const encodedQuery = encodeURIComponent(query);
-      const fetchCardInfo = await api.get(
-        `/search/issues?q=${encodedQuery}%20repo:wesbos/awesome-uses`
+      const { data } = await api.get(
+        `/search/issues?q=${texto}%20repo:rocketseat-education/reactjs-github-blog-challenge`
       );
 
-      console.log(fetchCardInfo, "auqi");
-      setCardsData(fetchCardInfo.data);
-      return fetchCardInfo;
+      setCardsData(data);
+
+      // const findTitle = cardsData?.items.filter(
+      //   (item: any) => item.title !== texto.query
+      // );
+
+      // console.log(findTitle, "aqui a porra");
+      // // setNewCard(findTitle || []);
     } catch (error) {
-      console.error("Error occurred during API request:", error);
+      return;
     }
   }
+
+  async function fetchPost() {
+    try {
+      const { data } = await axios.get(
+        `https://api.github.com/repos/rocketseat-education/reactjs-github-blog-challenge/issues/3`
+      );
+
+      setPost({
+        number: data.number,
+        title: data.title,
+        body: data.body, // Fix the property name here
+        created_at: data.created_at,
+      });
+
+      console.log(data, "aqui ");
+      console.log(post, "aqui ");
+    } catch (e) {
+      return;
+    }
+  }
+
+  useEffect(() => {
+    void fetchCardData();
+    void fetchPost();
+
+    console.log(newCard, "aqui");
+  }, []);
 
   return (
     <MainContainer>
@@ -69,10 +100,11 @@ export function Blog() {
       <SearchForm
         handleSubmit={handleSubmit}
         register={register}
-        handleSearch={handleSearch}
+        fetchCardData={fetchCardData}
+        // handleSearch={handleSearch}
       />
 
-      <Cards cardsData={cardsData} />
+      <Cards cardsData={cardsData} post={post} />
     </MainContainer>
   );
 }

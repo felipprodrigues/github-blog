@@ -11,12 +11,8 @@ interface CardItemsProps {
 }
 
 export function Cards({ cardsData }: { cardsData: DataProps | null }) {
-  if (!cardsData) {
+  if (!cardsData || !cardsData.items || cardsData.items.length === 0) {
     return <span>Nenhum resultado encontrado...</span>;
-  }
-
-  if (!cardsData.items || cardsData.items.length === 0) {
-    return <span>Nenhum item encontrado...</span>;
   }
 
   function handleTimeDate(dateParam: string) {
@@ -31,6 +27,7 @@ export function Cards({ cardsData }: { cardsData: DataProps | null }) {
     <>
       <CardContainer>
         {cardsData.items.map((item: CardItemsProps) => {
+          // console.log(item.body, "aqui");
           return (
             <Card key={`${item.id}-${item.title}`}>
               <div>
@@ -38,10 +35,10 @@ export function Cards({ cardsData }: { cardsData: DataProps | null }) {
                 <span>Há {handleTimeDate(item.created_at)} dias</span>
               </div>
               <div>
-                {item.body.length >= 150 ? (
+                {item.body ? (
                   <p>{item.body.substring(0, 200)}...</p>
                 ) : (
-                  <p>{item.body}</p>
+                  <p>"Esqueceram de preencher as informações"</p>
                 )}
               </div>
             </Card>
