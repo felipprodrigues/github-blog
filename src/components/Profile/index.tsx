@@ -8,7 +8,7 @@ import { Container, Content, ContentTags, ContentTitle } from "./styles";
 import { useEffect, useState } from "react";
 
 import { api } from "../../lib/axios";
-import { error } from "console";
+
 // import { api } from "../../lib/axios";
 
 interface GithubApiProps {

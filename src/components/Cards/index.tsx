@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
 import { Card, CardContainer } from "./styles";
-import { DataProps } from "../../pages/Blog";
+// import { DataProps } from "../../pages/Blog";
 import { parseISO, differenceInDays } from "date-fns";
+import { useContext } from "react";
+import { BlogContext } from "../../contexts/Blog/BlogContext";
 
 interface CardItemsProps {
   id: number;
@@ -10,7 +11,9 @@ interface CardItemsProps {
   body: string;
 }
 
-export function Cards({ cardsData }: { cardsData: DataProps | null }) {
+export function Cards() {
+  const { cardsData } = useContext(BlogContext);
+
   if (!cardsData || !cardsData.items || cardsData.items.length === 0) {
     return <span>Nenhum resultado encontrado...</span>;
   }
