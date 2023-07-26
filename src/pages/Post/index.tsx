@@ -35,7 +35,7 @@ import {
 
 export function Post() {
   const { post } = useContext(PostContext);
-
+  console.log(post, "aqui");
   return (
     <>
       {post.map((item) => (
@@ -65,7 +65,7 @@ export function Post() {
               <ContentTags>
                 <div>
                   <GithubLogo size={20} />
-                  <span>{item.user.login}</span>
+                  {/* <span>{item.user.login}</span> */}
                 </div>
                 <div>
                   <Buildings size={20} />

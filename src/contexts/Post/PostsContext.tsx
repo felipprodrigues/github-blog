@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 export interface PostProps {
   number: number;
@@ -22,27 +23,22 @@ export const PostContext = createContext<PostContextProps>({
 });
 
 const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
-  const [post, setPost] = useState<PostProps[]>([
-    {
-      number: 0,
-      title: "",
-      body: "",
-      created_at: "",
-    },
-  ]);
+  const [post, setPost] = useState<PostProps[]>([]);
 
-  async function fetchPost() {
+  async function fetchPost(param: number) {
     try {
       const response = await axios.get(
-        `https://api.github.com/repos/rocketseat-education/reactjs-github-blog-challenge/issues/3`
+        `https://api.github.com/repos/rocketseat-education/reactjs-github-blog-challenge/issues/${param}`
       );
 
       const data = response.data as PostProps;
+      console.log(response.data, "request da api");
+      setPost(data);
 
-      setPost([data]);
+      const redirect =
+        (window.location.href = `http://127.0.0.1:5173/post/${param}`);
 
-      console.log(data, "aqui ");
-      console.log(post, "aqui ");
+      redirect;
     } catch (e) {
       return;
     }
@@ -56,6 +52,7 @@ const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     <PostContext.Provider
       value={{
         post,
+        fetchPost,
       }}
     >
       {children}

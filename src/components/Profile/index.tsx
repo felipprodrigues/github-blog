@@ -14,7 +14,7 @@ import { api } from "../../lib/axios";
 interface GithubApiProps {
   name: string;
   followers: number;
-  url: string;
+  html_url: string;
   login: string;
   company?: string;
   bio?: string;
@@ -25,7 +25,7 @@ export function Profile() {
   const [githubApi, setGithubApi] = useState<GithubApiProps>({
     name: "",
     followers: 0,
-    url: "",
+    html_url: "",
     login: "",
     company: "",
     bio: "",
@@ -38,8 +38,16 @@ export function Profile() {
         `/users/rocketseat-education`
       );
 
-      setGithubApi(response.data);
-      console.log(response.data);
+      const gitData = response.data;
+      setGithubApi({
+        name: gitData.name,
+        followers: gitData.followers,
+        html_url: gitData.html_url,
+        login: gitData.login,
+        company: gitData.company,
+        bio: gitData.bio,
+        avatar_url: gitData.avatar_url,
+      });
     } catch (error) {
       if (error instanceof Error) {
         console.log("Error occurred:", error.message);
@@ -62,7 +70,11 @@ export function Profile() {
           <h2>{githubApi.name}</h2>
 
           <div>
-            <a href={githubApi.url} target="_blank" rel="noopener noreferrer">
+            <a
+              href={githubApi.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               GITHUB
               <ArrowSquareUpRight size={18} />
             </a>
