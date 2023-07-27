@@ -89,8 +89,17 @@ export const ContentBody = styled.div`
 
   & > p {
     color: ${(props) => props.theme["base-text"]};
-    font-size: ${(props) => props.theme["font-m"]};
+    font-size: ${(props) => props.theme["font-l"]};
     display: grid;
     gap: 0.75rem;
+
+    a {
+      color: ${(props) => props.theme.blue};
+      text-decoration: none;
+    }
+  }
+
+  & img {
+    width: 100%;
   }
 `;

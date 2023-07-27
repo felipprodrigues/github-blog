@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
@@ -22,76 +22,83 @@ import {
   ContentTags,
   ContentTitle,
 } from "./styles";
+import { Profile } from "../../components/Profile";
 
-// interface GithubApiProps {
-//   name: string;
-//   followers: number;
-//   url: string;
-//   login: string;
-//   company?: string;
-//   bio?: string;
-//   avatar_url: string;
-// }
+interface GithubApiProps {
+  name: string;
+  followers: number;
+  url: string;
+  login: string;
+  company?: string;
+  bio?: string;
+  avatar_url: string;
+  title: string;
+  body: string;
+  user?: GithubUserProps;
+}
+
+interface GithubUserProps {
+  login: string;
+}
 
 export function Post() {
-  const { post } = useContext(PostContext);
-  console.log(post, "aqui");
+  const { postData } = useContext(PostContext);
+
   return (
     <>
-      {post.map((item) => (
-        <>
-          <Container key={item.number}>
-            <Content>
-              <ContentRef>
-                <Link to="/">
-                  <CaretLeft size={20} />
-                  VOLTAR
-                </Link>
+      <div>
+        <Profile />
 
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  VER NO GITHUB
-                  <ArrowSquareUpRight size={20} />
-                </a>
-              </ContentRef>
+        {postData.map((item: GithubApiProps) => (
+          // <div key={item.url}>
+          //   <Container>
+          //     <Content>
+          //       <ContentRef>
+          //         <Link to="/">
+          //           <CaretLeft size={20} />
+          //           VOLTAR
+          //         </Link>
 
-              <ContentTitle>
-                <h2>{item.title}</h2>
-              </ContentTitle>
+          //         <a href={item.url} target="_blank" rel="noopener noreferrer">
+          //           VER NO GITHUB
+          //           <ArrowSquareUpRight size={20} />
+          //         </a>
+          //       </ContentRef>
 
-              <ContentTags>
-                <div>
-                  <GithubLogo size={20} />
-                  {/* <span>{item.user.login}</span> */}
-                </div>
-                <div>
-                  <Buildings size={20} />
-                  <span>None</span>
-                </div>
-                <div>
-                  <Users size={20} />
-                  <span>10 seguidores</span>
-                </div>
-              </ContentTags>
-            </Content>
-          </Container>
+          //       <ContentTitle>
+          //         <h2>{item.title}</h2>
+          //       </ContentTitle>
 
-          <ContentBody>
-            {/* <p> */}
-            <ReactMarkdown
-              key={item.number}
-              rehypePlugins={[rehypeHighlight]}
-              remarkPlugins={[remarkGfm]}
-            >
-              {item.body}
-            </ReactMarkdown>
-            {/* </p> */}
+          //       <ContentTags>
+          //         <div>
+          //           <GithubLogo size={20} />
+          //           <span>{item.user.login}</span>
+          //         </div>
+          //         <div>
+          //           <Buildings size={20} />
+          //           <span>{item.company || "None"}</span>
+          //         </div>
+          //         <div>
+          //           <Users size={20} />
+          //           <span>{item.followers} seguidores</span>
+          //         </div>
+          //       </ContentTags>
+          //     </Content>
+          //   </Container>
+
+          <ContentBody key={item.url}>
+            <p>
+              <ReactMarkdown
+                key={item.url}
+                rehypePlugins={[rehypeHighlight]}
+                remarkPlugins={[remarkGfm]}
+              >
+                {item.body}
+              </ReactMarkdown>
+            </p>
           </ContentBody>
-        </>
-      ))}
+        ))}
+      </div>
     </>
   );
 }

@@ -1,7 +1,11 @@
-import axios from "axios";
-
-import { ReactNode, createContext, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import { api } from "../../lib/axios";
 
 export interface PostProps {
   number: number;
@@ -23,35 +27,32 @@ export const PostContext = createContext<PostContextProps>({
 });
 
 const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
-  const [post, setPost] = useState<PostProps[]>([]);
+  const [postData, setPostData] = useState<PostProps[]>([]);
+  const [postNumber, setPostNumber] = useState("");
 
-  async function fetchPost(param: number) {
+  const fetchPost = useCallback(async () => {
     try {
-      const response = await axios.get(
-        `https://api.github.com/repos/rocketseat-education/reactjs-github-blog-challenge/issues/${param}`
+      const response = await api.get(
+        `/repos/rocketseat-education/reactjs-github-blog-challenge/issues/${postNumber}`
       );
 
-      const data = response.data as PostProps;
-      console.log(response.data, "request da api");
-      setPost(data);
+      setPostData([response.data]);
 
-      const redirect =
-        (window.location.href = `http://127.0.0.1:5173/post/${param}`);
-
-      redirect;
+      console.log(response.data);
     } catch (e) {
       return;
     }
-  }
+  }, [postNumber]);
 
   useEffect(() => {
     void fetchPost();
-  }, []);
+  }, [fetchPost]);
 
   return (
     <PostContext.Provider
       value={{
-        post,
+        postData,
+        setPostNumber,
         fetchPost,
       }}
     >

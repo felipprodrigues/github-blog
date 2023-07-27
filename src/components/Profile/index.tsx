@@ -8,8 +8,7 @@ import { Container, Content, ContentTags, ContentTitle } from "./styles";
 import { useEffect, useState } from "react";
 
 import { api } from "../../lib/axios";
-
-// import { api } from "../../lib/axios";
+import { error } from "console";
 
 interface GithubApiProps {
   name: string;
@@ -81,7 +80,9 @@ export function Profile() {
           </div>
         </ContentTitle>
 
-        <p>{githubApi.bio ? githubApi.bio : "No bio description available"}</p>
+        <p>
+          {githubApi.bio ? githubApi.bio : "Nenhuma descrição foi inserida"}
+        </p>
 
         <ContentTags>
           <div>
@@ -90,7 +91,7 @@ export function Profile() {
           </div>
           <div>
             <Buildings size={20} />
-            <span>{githubApi.company ? githubApi.company : "None"}</span>
+            <span>{githubApi.company ? githubApi.company : "---"}</span>
           </div>
           <div>
             <Users size={20} />
