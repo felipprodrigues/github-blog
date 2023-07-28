@@ -49,15 +49,3 @@ export const CardContainer = styled.main`
     }
   }
 `;
-
-export const Card = styled.div`
-  /* border-radius: 6px;
-  border: 1px solid transparent;
-  background-color: ${(props) => props.theme["base-post"]};
-  padding: 1.5rem;
-  gap: 1rem;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  transition: all 0.15s linear; */
-`;

@@ -1,21 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   ReactNode,
   createContext,
   useCallback,
+  useContext,
   useEffect,
   useState,
 } from "react";
 import { api } from "../../lib/axios";
+import { BlogContext } from "../Blog/BlogContext";
 
 export interface PostProps {
+  url: string | undefined;
   number: number;
   title: string;
   body: string;
   created_at: string;
 }
 
-interface PostContextProps {
-  post: PostProps[];
+export interface PostContextProps {
+  postData: PostProps[];
+  setPostNumber: React.Dispatch<React.SetStateAction<number>>;
+  fetchPost: () => Promise<void>;
 }
 
 interface PostProviderProps {
@@ -23,25 +30,32 @@ interface PostProviderProps {
 }
 
 export const PostContext = createContext<PostContextProps>({
-  post: [],
+  postData: [],
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setPostNumber: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  fetchPost: async () => {},
 });
 
 const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
   const [postData, setPostData] = useState<PostProps[]>([]);
-  const [postNumber, setPostNumber] = useState("");
+  const [postNumber, setPostNumber] = useState(0);
+
+  const { setLoading } = useContext(BlogContext);
 
   const fetchPost = useCallback(async () => {
+    setLoading(true);
     try {
       const response = await api.get(
         `/repos/rocketseat-education/reactjs-github-blog-challenge/issues/${postNumber}`
       );
 
       setPostData([response.data]);
-
-      console.log(response.data);
+      setLoading(false);
     } catch (e) {
       return;
     }
+    setLoading(false);
   }, [postNumber]);
 
   useEffect(() => {

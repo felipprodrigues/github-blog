@@ -1,14 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   ArrowSquareUpRight,
   Buildings,
+  CaretLeft,
   GithubLogo,
   Users,
 } from "phosphor-react";
 import { Container, Content, ContentTags, ContentTitle } from "./styles";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { api } from "../../lib/axios";
-import { error } from "console";
+import { Link, useLocation } from "react-router-dom";
+import { ContentRef } from "../../pages/Post/styles";
+import { PostContext } from "../../contexts/Post/PostsContext";
 
 interface GithubApiProps {
   name: string;
@@ -30,6 +34,10 @@ export function Profile() {
     bio: "",
     avatar_url: "",
   });
+
+  useEffect(() => {
+    void fetchUser();
+  }, []);
 
   async function fetchUser(): Promise<void> {
     try {
@@ -56,33 +64,58 @@ export function Profile() {
     }
   }
 
-  useEffect(() => {
-    void fetchUser();
-  }, []);
+  const location = useLocation();
+  const blogPage = location.pathname === "/";
+
+  const { postData } = useContext(PostContext);
 
   return (
     <Container>
-      <img src={githubApi.avatar_url} alt="" />
+      {blogPage && <img src={githubApi.avatar_url} alt="" />}
 
       <Content>
-        <ContentTitle>
-          <h2>{githubApi.name}</h2>
+        {blogPage ? (
+          <ContentTitle>
+            <h2>{githubApi.name}</h2>
 
-          <div>
+            <div>
+              <a
+                href={githubApi.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GITHUB
+                <ArrowSquareUpRight size={18} />
+              </a>
+            </div>
+          </ContentTitle>
+        ) : (
+          <ContentRef>
+            <Link to="/">
+              <CaretLeft size={20} />
+              VOLTAR
+            </Link>
+
             <a
-              href={githubApi.html_url}
+              ref={postData.map((item) => item.url)}
               target="_blank"
               rel="noopener noreferrer"
             >
-              GITHUB
-              <ArrowSquareUpRight size={18} />
+              VER NO GITHUB
+              <ArrowSquareUpRight size={20} />
             </a>
-          </div>
-        </ContentTitle>
+          </ContentRef>
+        )}
 
-        <p>
-          {githubApi.bio ? githubApi.bio : "Nenhuma descrição foi inserida"}
-        </p>
+        {blogPage ? (
+          <p>
+            {githubApi.bio ? githubApi.bio : "Nenhuma descrição foi inserida"}
+          </p>
+        ) : (
+          <ContentTitle>
+            <h2>{postData.map((item) => item.title)}</h2>
+          </ContentTitle>
+        )}
 
         <ContentTags>
           <div>
