@@ -1,17 +1,28 @@
-import axios from "axios";
-
-import { ReactNode, createContext, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { api } from "../../lib/axios";
+import { BlogContext } from "../Blog/BlogContext";
 
 export interface PostProps {
+  url: string | undefined;
   number: number;
   title: string;
   body: string;
   created_at: string;
 }
 
-interface PostContextProps {
-  post: PostProps[];
+export interface PostContextProps {
+  postData: PostProps[];
+  setPostNumber: React.Dispatch<React.SetStateAction<number>>;
+  fetchPost: () => Promise<void>;
 }
 
 interface PostProviderProps {
@@ -19,39 +30,43 @@ interface PostProviderProps {
 }
 
 export const PostContext = createContext<PostContextProps>({
-  post: [],
+  postData: [],
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setPostNumber: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  fetchPost: async () => {},
 });
 
 const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
-  const [post, setPost] = useState<PostProps[]>([]);
+  const [postData, setPostData] = useState<PostProps[]>([]);
+  const [postNumber, setPostNumber] = useState(0);
 
-  async function fetchPost(param: number) {
+  const { setLoading } = useContext(BlogContext);
+
+  const fetchPost = useCallback(async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(
-        `https://api.github.com/repos/rocketseat-education/reactjs-github-blog-challenge/issues/${param}`
+      const response = await api.get(
+        `/repos/rocketseat-education/reactjs-github-blog-challenge/issues/${postNumber}`
       );
 
-      const data = response.data as PostProps;
-      console.log(response.data, "request da api");
-      setPost(data);
-
-      const redirect =
-        (window.location.href = `http://127.0.0.1:5173/post/${param}`);
-
-      redirect;
+      setPostData([response.data]);
+      setLoading(false);
     } catch (e) {
       return;
     }
-  }
+    setLoading(false);
+  }, [postNumber]);
 
   useEffect(() => {
     void fetchPost();
-  }, []);
+  }, [fetchPost]);
 
   return (
     <PostContext.Provider
       value={{
-        post,
+        postData,
+        setPostNumber,
         fetchPost,
       }}
     >

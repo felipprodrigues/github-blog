@@ -16,10 +16,9 @@ export const FormContainer = styled.div`
       font-size: ${(props) => props.theme["font-m"]};
     }
   }
-  & form {
-    & input {
-      padding: 0.75rem 1rem;
-      width: 100%;
-    }
+
+  & input {
+    padding: 0.75rem 1rem;
+    width: 100%;
   }
 `;
