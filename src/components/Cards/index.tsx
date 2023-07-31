@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+ 
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { CardContainer } from "./styles";
 
@@ -15,7 +14,6 @@ export function Cards() {
   const { cards, loading } = useContext(BlogContext);
   const { setPostNumber } = useContext(PostContext);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   if (!cards || !cards?.items || cards?.items?.length === 0) {
     return <span>Nenhum resultado encontrado...</span>;
   }
