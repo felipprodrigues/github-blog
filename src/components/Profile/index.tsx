@@ -7,7 +7,7 @@ import {
   Users,
 } from "phosphor-react";
 import { Container, Content, ContentTags, ContentTitle } from "./styles";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { api } from "../../lib/axios";
 import { Link, useLocation } from "react-router-dom";
@@ -68,6 +68,7 @@ export function Profile() {
   const blogPage = location.pathname === "/";
 
   const { postData } = useContext(PostContext);
+  const firstPostRef = useRef<HTMLAnchorElement>(null);
 
   return (
     <Container>
@@ -96,14 +97,18 @@ export function Profile() {
               VOLTAR
             </Link>
 
-            <a
-              ref={postData.map((item) => item.url)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              VER NO GITHUB
-              <ArrowSquareUpRight size={20} />
-            </a>
+            {postData.map((item, index) => (
+              <a
+                key={index}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                ref={index === 0 ? firstPostRef : null}
+              >
+                VER NO GITHUB
+                <ArrowSquareUpRight size={20} />
+              </a>
+            ))}
           </ContentRef>
         )}
 

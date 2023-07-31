@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import React, { ReactNode, createContext, useEffect, useState } from "react";
@@ -9,7 +10,10 @@ export interface DataProps {
   incomplete_results: boolean;
   items: CardProps[];
   loading: boolean;
-  setLoading: () => void;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  cards: CardProps[];
+  setSearchInput: (input: string) => void;
+  totalCount: number;
 }
 
 export interface CardProps {
@@ -27,11 +31,17 @@ interface BlogProviderProps {
 export const BlogContext = createContext<DataProps>({
   total_count: 0,
   incomplete_results: false,
+
   items: [],
   loading: false,
   setLoading: function (): void {
     throw new Error("Function not implemented.");
   },
+  cards: [],
+  setSearchInput: function (_input: string): void {
+    throw new Error("Function not implemented.");
+  },
+  totalCount: 0,
 });
 
 const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {

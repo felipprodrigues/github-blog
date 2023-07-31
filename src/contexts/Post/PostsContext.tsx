@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
@@ -31,9 +32,7 @@ interface PostProviderProps {
 
 export const PostContext = createContext<PostContextProps>({
   postData: [],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setPostNumber: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   fetchPost: async () => {},
 });
 
