@@ -1,17 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
- 
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable */
 import { CardContainer } from "./styles";
 
 import { useContext } from "react";
-import { BlogContext, CardProps } from "../../contexts/Blog/BlogContext";
+import { BlogContext, CardProps } from "../../contexts/Blog/BlogContext.tsx";
 import { PostContext } from "../../contexts/Post/PostsContext";
 import { handleTimeDate } from "../../helpers/timeDateFn";
 import { Link } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 
 export function Cards() {
-  const { cards, loading } = useContext(BlogContext);
+  const { cards, loading }: any = useContext(BlogContext);
   const { setPostNumber } = useContext(PostContext);
 
   if (!cards || !cards?.items || cards?.items?.length === 0) {
@@ -30,20 +28,20 @@ export function Cards() {
             visible={true}
           />
         ) : (
-          cards.items.map((item: CardProps) => {
+          cards.items.map((items: CardProps) => {
             return (
               <Link
-                to={`/post/${item.number}`}
-                key={`${item.id}-${item.title}`}
-                onClick={() => setPostNumber(item.number)}
+                to={`/post/${items.number}`}
+                key={`${items.id}-${items.title}`}
+                onClick={() => setPostNumber(items.number)}
               >
                 <div>
-                  <h2>{item.title}</h2>
-                  <span>Há {handleTimeDate(item.created_at)} dias</span>
+                  <h2>{items.title}</h2>
+                  <span>Há {handleTimeDate(items.created_at)} dias</span>
                 </div>
                 <div>
-                  {item.body ? (
-                    <p>{item.body.substring(0, 200)}...</p>
+                  {items.body ? (
+                    <p>{items.body.substring(0, 200)}...</p>
                   ) : (
                     <p>"Esqueceram de preencher as informações"</p>
                   )}

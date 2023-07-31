@@ -1,3 +1,4 @@
+ 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -6,9 +7,9 @@ import React, { ReactNode, createContext, useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 
 export interface DataProps {
-  total_count: number;
-  incomplete_results: boolean;
-  items: CardProps[];
+  total_count?: number;
+  incomplete_results?: boolean;
+  items?: CardProps[];
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   cards: CardProps[];
@@ -74,7 +75,13 @@ const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
 
   return (
     <BlogContext.Provider
-      value={{ cards, setSearchInput, totalCount, loading, setLoading }}
+      value={{
+        cards,
+        setSearchInput,
+        totalCount,
+        loading,
+        setLoading,
+      }}
     >
       {children}
     </BlogContext.Provider>
