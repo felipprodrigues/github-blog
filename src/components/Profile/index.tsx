@@ -40,9 +40,7 @@ export function Profile() {
 
   async function fetchUser(): Promise<void> {
     try {
-      const response = await api.get<GithubApiProps>(
-        `/users/rocketseat-education`
-      );
+      const response = await api.get<GithubApiProps>(`/users/wesbos`);
 
       const gitData = response.data;
       setGithubApi({

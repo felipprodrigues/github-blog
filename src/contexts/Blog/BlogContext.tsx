@@ -1,4 +1,3 @@
- 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -60,7 +59,7 @@ const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const response = await api.get(
-        `/search/issues?q=${searchInput}%20repo:rocketseat-education/reactjs-github-blog-challenge`
+        `/search/issues?q=${searchInput}%20repo:wesbos/JavaScript30`
       );
 
       setCards(response.data);

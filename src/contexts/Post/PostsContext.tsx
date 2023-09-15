@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable react-hooks/exhaustive-deps */
- 
+
 import {
   ReactNode,
   createContext,
@@ -46,7 +46,7 @@ const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const response = await api.get(
-        `/repos/rocketseat-education/reactjs-github-blog-challenge/issues/${postNumber}`
+        `/repos/wesbos/JavaScript30/issues/${postNumber}`
       );
 
       setPostData([response.data]);
